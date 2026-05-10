@@ -2,6 +2,7 @@
 from DIPPID import SensorUDP
 import pandas as pd
 from time import sleep
+import glob
 
 # set columns  id, timestamp, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z
 columns = ['id', 'timestamp', 'acc_x', 'acc_y', 'acc_z', 'gyro_x', 'gyro_y', 'gyro_z']
@@ -13,6 +14,10 @@ sensor = SensorUDP(PORT)
 # initilaize empty dataframe
 df = pd.DataFrame(columns=columns)
 print(df)
+
+# get user input for activity name and user name
+user_name = input('Enter your name: ')
+activity_name = input('Enter the activity name: ')
 
 # wait for the first press to start collecting
 print('Waiting for button 1...')
@@ -61,5 +66,8 @@ df100 = df.resample('10ms').mean().interpolate()
 df100 = df100.reset_index()
 # add sequential id column
 df100['id'] = range(1, len(df100) + 1)
+# find next number for filename
+existing_files = glob.glob(f'data/{user_name}-{activity_name}-*.csv')
+next_number = len(existing_files) + 1
 # save processed data to CSV file
-df100.to_csv('data\\your_name-activity-number.csv', index=False)
+df100.to_csv(f'data/{user_name}-{activity_name}-{next_number}.csv', index=False)
