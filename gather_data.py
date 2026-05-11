@@ -4,6 +4,10 @@ import pandas as pd
 from time import sleep
 import glob
 
+# Configuration variables - modify these instead of entering them each time
+user_name = 'marius'
+activity_name = 'jumpingjacks'
+
 # set columns  id, timestamp, acc_x, acc_y, acc_z, gyro_x, gyro_y, gyro_z
 columns = ['id', 'timestamp', 'acc_x', 'acc_y', 'acc_z', 'gyro_x', 'gyro_y', 'gyro_z']
 
@@ -15,9 +19,7 @@ sensor = SensorUDP(PORT)
 df = pd.DataFrame(columns=columns)
 print(df)
 
-# get user input for activity name and user name
-user_name = input('Enter your name: ')
-activity_name = input('Enter the activity name: ')
+# Configuration is set at the top of the script
 
 # wait for the first press to start collecting
 print('Waiting for button 1...')
@@ -55,19 +57,10 @@ while (pd.Timestamp.now() - start_time).total_seconds() < 10:
 
         print(df.tail(1))
 sensor.disconnect()
-# resample the data to 100hz (10ms intervals)
-# convert to datetime
-df['timestamp'] = pd.to_datetime(df['timestamp'])
-# set timestamp as index
-df.set_index('timestamp', inplace=True)
-# resample and interpolate missing values
-df100 = df.resample('10ms').mean().interpolate()
-# reset index to make timestamp a column again
-df100 = df100.reset_index()
-# add sequential id column
-df100['id'] = range(1, len(df100) + 1)
+# save the data with the according name and number
+df['id'] = range(1, len(df) + 1)
 # find next number for filename
 existing_files = glob.glob(f'data/{user_name}-{activity_name}-*.csv')
 next_number = len(existing_files) + 1
 # save processed data to CSV file
-df100.to_csv(f'data/{user_name}-{activity_name}-{next_number}.csv', index=False)
+df.to_csv(f'data/{user_name}-{activity_name}-{next_number}.csv', index=False)
