@@ -18,3 +18,7 @@
 - Displays the current activity, prediction, and correctness status.
 - Confidence goes up when the activity done is executed right
 - Closes the sensor connection when the window is closed.
+
+## Sources
+- Pyglet Codeframe from old assignemtns
+- Some code refactor and debugging from Copilot
