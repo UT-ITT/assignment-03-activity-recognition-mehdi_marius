@@ -1,4 +1,4 @@
-# Mehdi & Marius (14.5/15P)
+# Mehdi & Marius (16.5/15P)
 
 ## Gathering Tracking Data (4.5/5P)
 * data is logged correctly
@@ -29,5 +29,5 @@
 ## Code Quality
 * write the things you have in den description.md into the README
 
-## Bonus Points (1P)
-In comparision with our data set you won **1st Place!** You get a Bonus Point! 
+## Bonus Points (3P)
+In comparision with our data set you won **1st Place!** You get three Bonus Point! 
